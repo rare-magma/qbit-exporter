@@ -120,9 +120,3 @@ $HOME/.config/qbit_exporter.conf
 $HOME/.config/systemd/user/qbit-exporter.timer
 $HOME/.config/systemd/user/qbit-exporter.service
 ```
-
-## Credits
-
-This project takes inspiration from the following:
-
-- [rare-magma/pbs-exporter](https://github.com/rare-magma/pbs-exporter)
