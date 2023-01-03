@@ -71,6 +71,12 @@ PUSHGATEWAY_URL='https://pushgateway.example.com'
 
 ### Troubleshooting
 
+Run the script manually with bash set to trace:
+
+```
+bash -x $HOME/.local/bin/qbit_exporter.sh
+```
+
 Check the systemd service logs and timer info with:
 
 ```
