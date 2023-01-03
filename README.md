@@ -56,6 +56,8 @@ The config file has a few options:
 
 ```
 QBIT_URL='https://qbit.example.com'
+QBIT_USER='username'
+QBIT_PASS='password'
 PUSHGATEWAY_URL='https://pushgateway.example.com'
 ```
 
