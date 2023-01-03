@@ -1,6 +1,6 @@
 # qbit-exporter
 
-Bash script that uploads qbittorrent Web UI API info to prometheus' pushgateway every minute.
+Bash script that uploads qBittorrent Web UI API info to prometheus' pushgateway every minute.
 
 ## Dependencies
 
@@ -55,7 +55,7 @@ systemctl --user start qbit-exporter.service
 The config file has a few options:
 
 ```
-QBIT_URL='https://qbit.example.com'
+QBIT_URL='https://qbittorrent.example.com'
 QBIT_USER='username'
 QBIT_PASS='password'
 PUSHGATEWAY_URL='https://pushgateway.example.com'
@@ -96,10 +96,10 @@ systemctl --user list-timers
 # TYPE up_info_data counter
 # HELP up_info_speed Global upload rate (bytes/s)
 # TYPE up_info_speed gauge
-dl_info_data {host="qbit.example.com"} 81434357739
-dl_info_speed {host="qbit.example.com"} 0
-up_info_data {host="qbit.example.com"} 1375554433715
-up_info_speed {host="qbit.example.com"} 7569367
+dl_info_data {host="qbittorrent.example.com"} 81434357739
+dl_info_speed {host="qbittorrent.example.com"} 0
+up_info_data {host="qbittorrent.example.com"} 1375554433715
+up_info_speed {host="qbittorrent.example.com"} 7569367
 ```
 
 ## Uninstallation
