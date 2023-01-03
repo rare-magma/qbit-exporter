@@ -2,7 +2,7 @@
 
 set -Eeo pipefail
 
-dependencies=(curl gzip jq)
+dependencies=(awk curl gzip jq)
 for program in "${dependencies[@]}"; do
     command -v "$program" >/dev/null 2>&1 || {
         echo >&2 "Couldn't find dependency: $program. Aborting."
@@ -10,6 +10,7 @@ for program in "${dependencies[@]}"; do
     }
 done
 
+AWK=$(command -v awk)
 CURL=$(command -v curl)
 GZIP=$(command -v gzip)
 JQ=$(command -v jq)
@@ -18,7 +19,7 @@ JQ=$(command -v jq)
 [[ -z "${PUSHGATEWAY_URL}" ]] && echo >&2 "PUSHGATEWAY_URL is empty. Aborting" && exit 1
 
 if [[ -n "$QBIT_USER" ]] && [[ -n "$QBIT_PASS" ]]; then
-    cookie=$(curl --include --silent --compressed --data "username=$QBIT_USER&password=$QBIT_PASS" "$QBIT_URL/api/v2/auth/login" | awk '/set-cookie/ {print $2}')
+    cookie=$($CURL --include --silent --compressed --data "username=$QBIT_USER&password=$QBIT_PASS" "$QBIT_URL/api/v2/auth/login" | $AWK '/set-cookie/ {print $2}')
 fi
 
 if [[ -n "$cookie" ]]; then

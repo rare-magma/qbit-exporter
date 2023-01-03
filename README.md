@@ -4,6 +4,7 @@ Bash script that uploads qbittorrent Web UI API info to prometheus' pushgateway 
 
 ## Dependencies
 
+- [awk](https://www.gnu.org/software/gawk/manual/gawk.html)
 - [curl](https://curl.se/)
 - [jq](https://stedolan.github.io/jq/)
 - Optional: [make](https://www.gnu.org/software/make/) - for automatic installation support
