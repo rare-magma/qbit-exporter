@@ -61,6 +61,11 @@ PUSHGATEWAY_URL='https://pushgateway.example.com'
 - `QBIT_URL` should be the same URL as used to access the qBittorrent web user interface
 - `PUSHGATEWAY_URL` should be a valid URL for the [push gateway](https://github.com/prometheus/pushgateway).
 
+  Optional:
+
+  - `QBIT_USER` should be the username configured to access the qBittorrent web user interface
+  - `QBIT_PASS` should be the password corresponding to the user above
+
 ### Troubleshooting
 
 Check the systemd service logs and timer info with:

@@ -17,9 +17,17 @@ JQ=$(command -v jq)
 [[ -z "${QBIT_URL}" ]] && echo >&2 "QBIT_URL is empty. Aborting" && exit 1
 [[ -z "${PUSHGATEWAY_URL}" ]] && echo >&2 "PUSHGATEWAY_URL is empty. Aborting" && exit 1
 
-qbit_json=$($CURL --silent --compressed "$QBIT_URL/api/v2/transfer/info")
+if [[ -n "$QBIT_USER" ]] && [[ -n "$QBIT_PASS" ]]; then
+    cookie=$(curl --include --silent --compressed --data "username=$QBIT_USER&password=$QBIT_PASS" "$QBIT_URL/api/v2/auth/login" | awk '/set-cookie/ {print $2}')
+fi
 
-[[ -z "${qbit_json}" ]] && echo >&2 "Couldn't get any info from the QBIT API. Aborting" && exit 1
+if [[ -n "$cookie" ]]; then
+    qbit_json=$($CURL --silent --cookie "${cookie::-1}" --compressed "$QBIT_URL/api/v2/transfer/info")
+else
+    qbit_json=$($CURL --silent --compressed "$QBIT_URL/api/v2/transfer/info")
+fi
+
+[[ -z "${qbit_json}" ]] && echo >&2 "Couldn't get info from the QBIT API. Aborting" && exit 1
 
 mapfile -t parsed_qbit_stats < <(echo "$qbit_json" | $JQ --raw-output '.dl_info_data,.dl_info_speed,.up_info_data,.up_info_speed')
 
