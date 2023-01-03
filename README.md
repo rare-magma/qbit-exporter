@@ -88,10 +88,10 @@ systemctl --user list-timers
 # TYPE up_info_data counter
 # HELP up_info_speed Global upload rate (bytes/s)
 # TYPE up_info_speed gauge
-dl_info_data {host="$HOSTNAME"} ${dl_info_data_value}
-dl_info_speed {host="$HOSTNAME"} ${dl_info_speed_value}
-up_info_data {host="$HOSTNAME"} ${up_info_data_value}
-up_info_speed {host="$HOSTNAME"} ${up_info_speed_value}
+dl_info_data {host="qbit.example.com"} 81434357739
+dl_info_speed {host="qbit.example.com"} 0
+up_info_data {host="qbit.example.com"} 1375554433715
+up_info_speed {host="qbit.example.com"} 7569367'
 ```
 
 ## Uninstallation
