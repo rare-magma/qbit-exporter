@@ -91,7 +91,7 @@ systemctl --user list-timers
 dl_info_data {host="qbit.example.com"} 81434357739
 dl_info_speed {host="qbit.example.com"} 0
 up_info_data {host="qbit.example.com"} 1375554433715
-up_info_speed {host="qbit.example.com"} 7569367'
+up_info_speed {host="qbit.example.com"} 7569367
 ```
 
 ## Uninstallation
