@@ -1,0 +1,8 @@
+[Unit]
+Description=QBIT Exporter
+After=network-online.target qbittorrent.service
+
+[Service]
+ExecStart=/home/%u/.local/bin/qbit_exporter.sh
+EnvironmentFile=/home/%u/.config/qbit_exporter.conf
+Type=simple
