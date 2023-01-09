@@ -4,5 +4,32 @@ After=network-online.target qbittorrent.service
 
 [Service]
 ExecStart=/home/%u/.local/bin/qbit_exporter.sh
-EnvironmentFile=/home/%u/.config/qbit_exporter.conf
+LoadCredential=creds:/home/%u/.config/qbit_exporter.conf
 Type=oneshot
+
+# Security hardening options
+CapabilityBoundingSet=~CAP_SYS_PTRACE CAP_NET_ADMIN CAP_SYS_ADMIN CAP_AUDIT_*
+CapabilityBoundingSet=~CAP_SYS_NICE CAP_SYS_RESOURCE CAP_SYS_TIME CAP_LINUX_IMMUTABLE
+CapabilityBoundingSet=~CAP_SETUID CAP_SETGID CAP_SETPCAP
+CapabilityBoundingSet=~CAP_CHOWN CAP_FSETID CAP_SETFCAP
+DevicePolicy=closed
+KeyringMode=private
+LockPersonality=yes
+MemoryDenyWriteExecute=yes
+NoNewPrivileges=yes
+PrivateTmp=yes
+PrivateUsers=yes
+ProtectSystem=strict
+ProtectHome=read-only
+ProtectControlGroups=yes
+ProtectHostname=yes
+ProtectKernelLogs=yes
+ProtectKernelTunables=yes
+ProtectProc=invisible
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6 AF_NETLINK
+RestrictNamespaces=yes
+RestrictRealtime=yes
+RestrictSUIDSGID=yes
+SystemCallArchitectures=native
+SystemCallFilter=~@clock @cpu-emulation @debug @module
+SystemCallFilter=~@mount @obsolete @privileged @raw-io @reboot @resources @swap
