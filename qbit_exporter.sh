@@ -22,7 +22,14 @@ source "$CREDENTIALS_DIRECTORY/creds"
 [[ -z "${PUSHGATEWAY_URL}" ]] && echo >&2 "PUSHGATEWAY_URL is empty. Aborting" && exit 1
 
 if [[ -n "$QBIT_USER" ]] && [[ -n "$QBIT_PASS" ]]; then
-    cookie=$($CURL --include --silent --compressed --data "username=$QBIT_USER&password=$QBIT_PASS" "$QBIT_URL/api/v2/auth/login" | $AWK '/set-cookie/ {print $2}')
+    cookie=$(
+        $CURL --include \
+            --silent \
+            --compressed \
+            --data "username=$QBIT_USER&password=$QBIT_PASS" \
+            "$QBIT_URL/api/v2/auth/login" |
+            $AWK '/set-cookie/ {print $2}'
+    )
 fi
 
 if [[ -n "$cookie" ]]; then
@@ -33,7 +40,9 @@ fi
 
 [[ -z "${qbit_json}" ]] && echo >&2 "Couldn't get info from the QBIT API. Aborting" && exit 1
 
-mapfile -t parsed_qbit_stats < <(echo "$qbit_json" | $JQ --raw-output '.dl_info_data,.dl_info_speed,.up_info_data,.up_info_speed')
+mapfile -t parsed_qbit_stats < <(
+    echo "$qbit_json" | $JQ --raw-output '.dl_info_data,.dl_info_speed,.up_info_data,.up_info_speed'
+)
 
 dl_info_data_value=${parsed_qbit_stats[0]}
 dl_info_speed_value=${parsed_qbit_stats[1]}
