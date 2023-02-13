@@ -24,7 +24,7 @@ source "$CREDENTIALS_DIRECTORY/creds"
 if [[ -n "$QBIT_USER" ]] && [[ -n "$QBIT_PASS" ]]; then
     cookie=$(
         $CURL --include \
-            --silent \
+            --silent --fail --show-error \
             --compressed \
             --data "username=$QBIT_USER&password=$QBIT_PASS" \
             "$QBIT_URL/api/v2/auth/login" |
@@ -33,9 +33,14 @@ if [[ -n "$QBIT_USER" ]] && [[ -n "$QBIT_PASS" ]]; then
 fi
 
 if [[ -n "$cookie" ]]; then
-    qbit_json=$($CURL --silent --cookie "${cookie::-1}" --compressed "$QBIT_URL/api/v2/transfer/info")
+    qbit_json=$(
+        $CURL --silent --fail --show-error \
+            --cookie "${cookie::-1}" \
+            --compressed \
+            "$QBIT_URL/api/v2/transfer/info"
+    )
 else
-    qbit_json=$($CURL --silent --compressed "$QBIT_URL/api/v2/transfer/info")
+    qbit_json=$($CURL --silent --fail --show-error --compressed "$QBIT_URL/api/v2/transfer/info")
 fi
 
 [[ -z "${qbit_json}" ]] && echo >&2 "Couldn't get info from the QBIT API. Aborting" && exit 1
@@ -67,6 +72,6 @@ END_HEREDOC
 )
 
 echo "$qbit_stats" | $GZIP |
-    $CURL --silent \
+    $CURL --silent --fail --show-error \
         --header 'Content-Encoding: gzip' \
         --data-binary @- "${PUSHGATEWAY_URL}"/metrics/job/qbit_exporter/host/"$HOSTNAME"
