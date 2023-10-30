@@ -86,25 +86,33 @@ systemctl --user list-timers
 
 ## Exported metrics
 
+- dl_info_data_alltime: All-time data downloaded (bytes)
 - dl_info_data: Data downloaded this session (bytes)
 - dl_info_speed: Global download rate (bytes/s)
+- up_info_data_alltime: All-time data uploaded (bytes)
 - up_info_data: Data uploaded this session (bytes)
 - up_info_speed: Global upload rate (bytes/s)
 
 ## Exported metrics example
 
 ```
+# HELP dl_info_data_alltime All-time data downloaded (bytes)
+# TYPE dl_info_data_alltime counter
 # HELP dl_info_data Data downloaded this session (bytes)
 # TYPE dl_info_data counter
 # HELP dl_info_speed Global download rate (bytes/s)
 # TYPE dl_info_speed gauge
 # HELP up_info_data Data uploaded this session (bytes)
 # TYPE up_info_data counter
+# HELP up_info_data_alltime All-time data uploaded (bytes)
+# TYPE up_info_data_alltime counter
 # HELP up_info_speed Global upload rate (bytes/s)
 # TYPE up_info_speed gauge
+dl_info_data_alltime{host="qbittorrent.example.com"} 1.9616861272791e+13
 dl_info_data {host="qbittorrent.example.com"} 81434357739
 dl_info_speed {host="qbittorrent.example.com"} 0
 up_info_data {host="qbittorrent.example.com"} 1375554433715
+up_info_data_alltime{host="qbittorrent.example.com"} 1.62631111452758e+14
 up_info_speed {host="qbittorrent.example.com"} 7569367
 ```
 
