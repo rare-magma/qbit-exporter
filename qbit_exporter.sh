@@ -71,9 +71,9 @@ up_info_speed_value=${parsed_qbit_stats[3]}
 
 qbit_stats=$(
     cat <<END_HEREDOC
-# HELP dl_info_data_alltime All-time data downloaded (bytes)
+# HELP dl_info_data_alltime All-time download (bytes)
 # TYPE dl_info_data_alltime counter
-# HELP up_info_data_alltime All-time data uploaded (bytes)
+# HELP up_info_data_alltime All-time upload (bytes)
 # TYPE up_info_data_alltime counter
 # HELP dl_info_data Data downloaded this session (bytes)
 # TYPE dl_info_data counter
