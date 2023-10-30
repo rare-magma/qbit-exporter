@@ -116,6 +116,18 @@ up_info_data_alltime{host="qbittorrent.example.com"} 1.62631111452758e+14
 up_info_speed {host="qbittorrent.example.com"} 7569367
 ```
 
+## Example grafana dashboard
+
+In `grafana-dashboard.json` there is an example of the kind of dashboard that can be built with `qbit-exporter` data:
+
+<img src="dashboard-screenshot.png" title="Example grafana dashboard" width="100%">
+
+Import it by doing the following:
+
+1. Create a dashboard
+2. Click the dashboard's settings button on the top right.
+3. Go to JSON Model and then paste there the content of the `grafana-dashboard.json` file.
+
 ## Uninstallation
 
 ### With the Makefile
