@@ -7,7 +7,9 @@ Bash script that uploads qBittorrent Web UI API info to prometheus' pushgateway 
 - [awk](https://www.gnu.org/software/gawk/manual/gawk.html)
 - [curl](https://curl.se/)
 - [jq](https://stedolan.github.io/jq/)
-- Optional: [make](https://www.gnu.org/software/make/) - for automatic installation support
+- Optional:
+  - [make](https://www.gnu.org/software/make/) - for automatic installation support
+  - [docker](https://docs.docker.com/)
 
 ## Relevant documentation
 
@@ -17,11 +19,35 @@ Bash script that uploads qBittorrent Web UI API info to prometheus' pushgateway 
 
 ## Installation
 
+### With Docker
+
+#### docker-compose
+
+1. Configure `qbit_exporter.conf` (see the configuration section below).
+1. Run it.
+
+   ```bash
+   docker compose up --detach
+   ```
+
+#### docker build & run
+
+1. Build the docker image.
+
+   ```bash
+   docker build . --tag qbit-exporter
+   ```
+
+1. Configure `qbit_exporter.conf` (see the configuration section below).
+1. Run it.
+
+   `docker run --rm --init --tty --interactive --volume $(pwd):/app localhost/qbit-exporter`
+
 ### With the Makefile
 
 For convenience, you can install this exporter with the following command or follow the manual process described in the next paragraph.
 
-```
+```bash
 make install
 $EDITOR $HOME/.config/qbit_exporter.conf
 ```
@@ -34,19 +60,19 @@ $EDITOR $HOME/.config/qbit_exporter.conf
 
 3. Copy the systemd unit and timer to `$HOME/.config/systemd/user/`:
 
-```
-cp qbit-exporter.* $HOME/.config/systemd/user/
-```
+   ```bash
+   cp qbit-exporter.* $HOME/.config/systemd/user/
+   ```
 
 4. and run the following command to activate the timer:
 
-```
-systemctl --user enable --now qbit-exporter.timer
-```
+   ```bash
+   systemctl --user enable --now qbit-exporter.timer
+   ```
 
 It's possible to trigger the execution by running manually:
 
-```
+```bash
 systemctl --user start qbit-exporter.service
 ```
 
@@ -54,7 +80,7 @@ systemctl --user start qbit-exporter.service
 
 The config file has a few options:
 
-```
+```bash
 QBIT_URL='https://qbittorrent.example.com'
 QBIT_USER='username'
 QBIT_PASS='password'
@@ -73,13 +99,13 @@ PUSHGATEWAY_URL='https://pushgateway.example.com'
 
 Run the script manually with bash set to trace:
 
-```
+```bash
 bash -x $HOME/.local/bin/qbit_exporter.sh
 ```
 
 Check the systemd service logs and timer info with:
 
-```
+```bash
 journalctl --user --unit qbit-exporter.service
 systemctl --user list-timers
 ```
@@ -154,3 +180,7 @@ $HOME/.config/qbit_exporter.conf
 $HOME/.config/systemd/user/qbit-exporter.timer
 $HOME/.config/systemd/user/qbit-exporter.service
 ```
+
+## Credits
+
+- [reddec/compose-scheduler](https://github.com/reddec/compose-scheduler)

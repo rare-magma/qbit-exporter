@@ -15,8 +15,12 @@ CURL=$(command -v curl)
 GZIP=$(command -v gzip)
 JQ=$(command -v jq)
 
-# shellcheck source=/dev/null
-source "$CREDENTIALS_DIRECTORY/creds"
+if [[ "${RUNNING_IN_DOCKER}" ]]; then
+    source "/app/qbit_exporter.conf"
+else
+    # shellcheck source=/dev/null
+    source "$CREDENTIALS_DIRECTORY/creds"
+fi
 
 [[ -z "${QBIT_URL}" ]] && echo >&2 "QBIT_URL is empty. Aborting" && exit 1
 [[ -z "${PUSHGATEWAY_URL}" ]] && echo >&2 "PUSHGATEWAY_URL is empty. Aborting" && exit 1
