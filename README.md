@@ -41,7 +41,9 @@ Bash script that uploads qBittorrent Web UI API info to prometheus' pushgateway 
 1. Configure `qbit_exporter.conf` (see the configuration section below).
 1. Run it.
 
-   `docker run --rm --init --tty --interactive --volume $(pwd):/app localhost/qbit-exporter`
+   ```bash
+    docker run --rm --init --tty --interactive --read-only --cap-drop ALL --security-opt no-new-privileges:true --cpus 2 -m 64m --pids-limit 16 --volume ./qbit_exporter.conf:/app/qbit_exporter.conf:ro ghcr.io/rare-magma/qbit-exporter:latest
+    ```
 
 ### With the Makefile
 
