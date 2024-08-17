@@ -1,5 +1,40 @@
 # qbit-exporter
 
+# I no longer use prometheus for this purpose so development of this tool has ceased. Feel free to fork it
+
+If using telegraf + influxdb the same can be achieved via `input.http` [plugin](https://github.com/influxdata/telegraf/tree/master/plugins/inputs/http) + `json_v2` [parser](https://github.com/influxdata/telegraf/tree/master/plugins/parsers/json_v2) with the following config:
+
+```ini
+[[inputs.http]]
+  interval = "1m"
+  tags = {host = "host.example.com"}
+  urls = ["https://host.example.com/api/v2/sync/maindata"]
+  cookie_auth_url = "https://host.example.com/api/v2/auth/login"
+  cookie_auth_method = "POST"
+  cookie_auth_headers = { Content-Type = "application/x-www-form-urlencoded; charset=UTF-8" }
+  cookie_auth_body = 'username=QBIT_USER&password=QBIT_PASSWORD'
+  data_format = "json_v2"
+  [[inputs.http.json_v2]]
+        [[inputs.http.json_v2.object]]
+            path = "server_state"
+            disable_prepend_keys = true
+
+[[inputs.http]]
+  interval = "1m"
+  tags = {host = "host.example.com"}
+  urls = ["https://host.example.com/api/v2/transfer/info"]
+  cookie_auth_url = "https://host.example.com/api/v2/auth/login"
+  cookie_auth_method = "POST"
+  cookie_auth_headers = { Content-Type = "application/x-www-form-urlencoded; charset=UTF-8" }
+  cookie_auth_body = 'username=QBIT_USER&password=QBIT_PASSWORD'
+  data_format = "json_v2"
+  [[inputs.http.json_v2]]
+        [[inputs.http.json_v2.object]]
+            path = "@this"
+            included_keys = ["dl_info_data", "dl_info_speed", "up_info_data", "up_info_speed"]
+            disable_prepend_keys = true
+```
+
 Bash script that uploads qBittorrent Web UI API info to prometheus' pushgateway every minute.
 
 ## Dependencies
